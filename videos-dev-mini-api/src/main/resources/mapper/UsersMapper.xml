@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lidsu.mapper.UsersMapper">
+  <resultMap id="BaseResultMap" type="com.lidsu.pojo.Users">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="CHAR" property="id" />
+    <result column="username" jdbcType="CHAR" property="username" />
+    <result column="password" jdbcType="CHAR" property="password" />
+    <result column="face_image" jdbcType="CHAR" property="faceImage" />
+    <result column="nickname" jdbcType="CHAR" property="nickname" />
+    <result column="fans_counts" jdbcType="BIGINT" property="fansCounts" />
+    <result column="follow_counts" jdbcType="BIGINT" property="followCounts" />
+    <result column="receive_like_counts" jdbcType="BIGINT" property="receiveLikeCounts" />
+  </resultMap>
+</mapper>
