@@ -1,0 +1,5 @@
+com\lidsu\Application.class
+com\lidsu\Swagger2.class
+com\lidsu\controller\HelloController.class
+com\lidsu\controller\BasicController.class
+com\lidsu\controller\RegistLoginController.class

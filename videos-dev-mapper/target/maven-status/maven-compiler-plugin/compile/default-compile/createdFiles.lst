@@ -1,0 +1,8 @@
+com\lidsu\mapper\CommentsMapper.class
+com\lidsu\mapper\SearchRecordsMapper.class
+com\lidsu\mapper\UsersMapper.class
+com\lidsu\mapper\UsersReportMapper.class
+com\lidsu\mapper\UsersLikeVideosMapper.class
+com\lidsu\mapper\BgmMapper.class
+com\lidsu\mapper\UsersFansMapper.class
+com\lidsu\mapper\VideosMapper.class

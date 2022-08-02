@@ -18,4 +18,17 @@ public interface UserService {
 
 
      Users queryUserForLogin(String username, String password);
+
+    /**
+     * 用户修改信息
+     * @param uses
+     */
+     void updateUserInfo(Users uses);
+
+    /**
+     * 查询用户信息
+     * @param userId
+     * @return
+     */
+     Users queryUserInfo(String  userId);
 }

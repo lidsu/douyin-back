@@ -1,0 +1,9 @@
+com\lidsu\pojo\UsersFans.class
+com\lidsu\pojo\Bgm.class
+com\lidsu\pojo\Users.class
+com\lidsu\pojo\Comments.class
+com\lidsu\pojo\SearchRecords.class
+com\lidsu\pojo\UsersReport.class
+com\lidsu\pojo\UsersLikeVideos.class
+com\lidsu\pojo\Videos.class
+com\lidsu\pojo\vo\UsersVO.class
