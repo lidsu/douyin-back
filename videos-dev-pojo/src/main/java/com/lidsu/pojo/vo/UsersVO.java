@@ -16,6 +16,15 @@ public class UsersVO {
 
     private String userToken;
 
+    private Boolean isFollow;
+
+    public Boolean getFollow() {
+        return isFollow;
+    }
+
+    public void setFollow(Boolean follow) {
+        isFollow = follow;
+    }
     public String getUserToken() {
         return userToken;
     }

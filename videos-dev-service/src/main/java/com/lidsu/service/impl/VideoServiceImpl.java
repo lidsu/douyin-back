@@ -2,10 +2,9 @@ package com.lidsu.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.lidsu.mapper.SearchRecordsMapper;
-import com.lidsu.mapper.VideosMapper;
-import com.lidsu.mapper.VideosMapperCustom;
+import com.lidsu.mapper.*;
 import com.lidsu.pojo.SearchRecords;
+import com.lidsu.pojo.UsersLikeVideos;
 import com.lidsu.pojo.Videos;
 import com.lidsu.pojo.vo.VideosVO;
 import com.lidsu.service.VideoService;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -30,6 +30,12 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     private SearchRecordsMapper searchRecordsMapper;
+
+    @Autowired
+    private UsersLikeVideosMapper usersLikeVideosMapper;
+
+    @Autowired
+    private UsersMapper usersMapper;
 
     @Autowired
     private Sid sid;
@@ -68,6 +74,7 @@ public class VideoServiceImpl implements VideoService {
     public PagedResult getAllVideos(Videos video,Integer isSaveRecord,Integer page, Integer pageSize) {
         //保存热搜词
         String desc=video.getVideoDesc();
+        String userId = video.getUserId();
         if(isSaveRecord!=null&& isSaveRecord==1 ){
             SearchRecords record = new SearchRecords();
             String id = sid.nextShort();
@@ -77,7 +84,7 @@ public class VideoServiceImpl implements VideoService {
 
         }
         PageHelper.startPage(page,pageSize);
-        List<VideosVO> list = videosMapperCustom.queryAllVideos(desc);
+        List<VideosVO> list = videosMapperCustom.queryAllVideos(desc,userId);
         PageInfo<VideosVO> pageList=new PageInfo<>(list);
         PagedResult pagedResult = new PagedResult();
         pagedResult.setPage(page);
@@ -92,5 +99,40 @@ public class VideoServiceImpl implements VideoService {
     public List<String> getHotwords() {
 
         return searchRecordsMapper.getHotwords();
+    }
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public void userLikeVideo(String userId, String videoId, String VideoCreaterId) {
+
+        String id = sid.nextShort();
+        UsersLikeVideos ulv = new UsersLikeVideos();
+        ulv.setId(id);
+        ulv.setUserId(userId);
+        ulv.setVideoId(videoId);
+        usersLikeVideosMapper.insert(ulv);
+
+        videosMapperCustom.addVedioLikeCount(videoId);
+
+        usersMapper.addReceiveLikeCount(userId);
+
+
+
+    }
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void userUnLikeVideo(String userId, String videoId, String VideoCreaterId) {
+
+        Example example = new Example(UsersLikeVideos.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userId",userId);
+        criteria.andEqualTo("videoId",videoId);
+
+
+        usersLikeVideosMapper.deleteByExample(example);
+
+        videosMapperCustom.reduceVideoLikeCount(videoId);
+
+        usersMapper.reduceReceiveLikeCount(userId);
+
     }
 }

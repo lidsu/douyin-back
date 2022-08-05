@@ -199,11 +199,14 @@ public class VedioController extends BasicController{
 
     @ApiOperation(value="分页和搜索查询展示视频", notes="分页和搜索查询展示视频的接口")
     @PostMapping(value="/showAll")
-    public IMoocJSONResult showAll(@RequestBody Videos video,Integer isSaveRecord, Integer page) throws Exception {
+    public IMoocJSONResult showAll(@RequestBody Videos video,Integer isSaveRecord, Integer page,Integer pageSize) throws Exception {
         if(page==null){
             page=1;
         }
-        PagedResult result = videoService.getAllVideos(video,isSaveRecord,page, PAGE_SIZE);
+        if(pageSize==null){
+            pageSize=PAGE_SIZE;
+        }
+        PagedResult result = videoService.getAllVideos(video,isSaveRecord,page, pageSize);
         return IMoocJSONResult.ok(result);
     }
 
@@ -211,5 +214,16 @@ public class VedioController extends BasicController{
     @PostMapping(value="/hot")
     public IMoocJSONResult hot() {
         return IMoocJSONResult.ok(videoService.getHotwords());
+    }
+
+    @PostMapping(value="/userLike")
+    public IMoocJSONResult userLike(String userId,String videoId,String videoCreaterId) {
+        videoService.userLikeVideo(userId,videoId,videoCreaterId);
+        return IMoocJSONResult.ok();
+    }
+    @PostMapping(value="/userUnLike")
+    public IMoocJSONResult userUnLike(String userId,String videoId,String videoCreaterId) {
+        videoService.userUnLikeVideo(userId,videoId,videoCreaterId);
+        return IMoocJSONResult.ok();
     }
 }
